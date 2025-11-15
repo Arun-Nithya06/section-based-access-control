@@ -17,7 +17,7 @@ import { DatabaseService } from './database.service';
         host: configService.get('DB_HOST', 'localhost'),
         port: configService.get('DB_PORT', 5432),
         username: configService.get('DB_USERNAME', 'postgres'),
-        password: configService.get('DB_PASSWORD', 'password'),
+        password: configService.get('DB_PASSWORD', 'arun@9655'),
         database: configService.get('DB_NAME', 'nest_auth'),
         entities: [User, Role, Section, Permission],
         synchronize: configService.get('NODE_ENV') !== 'production',
