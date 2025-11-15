@@ -1,0 +1,6 @@
+export const AUTH_CONSTANTS = {
+  JWT_SECRET: 'JWT_SECRET',
+  JWT_EXPIRES_IN: '24h',
+  BCRYPT_SALT_ROUNDS: 12,
+  SESSION_EXPIRY: 24 * 60 * 60 * 1000, // 24 hours
+};
