@@ -17,24 +17,31 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
+      - name: Extract repository name
+        id: repo
+        run: |
+          # Get the repository name and convert to lowercase
+          REPO_NAME=$(echo "${{ github.repository }}" | awk -F '/' '{print $2}' | tr '[:upper:]' '[:lower:]')
+          echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
+
       # - name: Create .env file
       #   run: echo "${{ secrets.ENV }}" | base64 -d > .env
 
       - name: Build and tag Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/docker:latest .
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/${{ steps.repo.outputs.repo_name }}:latest .
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/docker:latest
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ steps.repo.outputs.repo_name }}:latest
 
       - name: Update image metadata
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKER_HUB_USERNAME }}/docker:latest
+          images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ steps.repo.outputs.repo_name }}
           tags: |
             type=sha
           labels: |
-            org.opencontainers.image.title=Section And Role Based Authendication
+            org.opencontainers.image.title=Section And Role Based Authentication
             org.opencontainers.image.description=NestJS application
             org.opencontainers.image.url=https://github.com/${{github.repository}}
             org.opencontainers.image.revision=${{github.sha}}
