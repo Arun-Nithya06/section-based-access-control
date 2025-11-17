@@ -38,6 +38,7 @@ export class DatabaseService implements OnApplicationBootstrap {
       await this.seedUsers();
 
       this.logger.log('Database seeded successfully');
+      // await this.clearDatabase();
     } catch (error) {
       this.logger.error('Database seeding failed:', error);
     }
@@ -234,8 +235,8 @@ export class DatabaseService implements OnApplicationBootstrap {
 
     const users = [
       {
-        email: 'superadmin@example.com',
-        password: 'superadmin123',
+        email: 'superadmin1@example.com',
+        password: 'superadmin1234',
         firstName: 'Super',
         lastName: 'Admin',
         roles: [superAdminRole],
@@ -282,21 +283,21 @@ export class DatabaseService implements OnApplicationBootstrap {
     }
   }
 
-  // Optional: Method to clear database (for testing)
-  async clearDatabase() {
-    this.logger.log('Clearing database...');
-    await this.permissionsRepository.delete({});
-    await this.usersRepository.delete({});
-    await this.rolesRepository.delete({});
-    await this.sectionsRepository.delete({});
-    this.logger.log('Database cleared successfully');
-  }
+  // // Optional: Method to clear database (for testing)
+  // async clearDatabase() {
+  //   this.logger.log('Clearing database...');
+  //   await this.permissionsRepository.delete({});
+  //   await this.usersRepository.delete({});
+  //   await this.rolesRepository.delete({});
+  //   await this.sectionsRepository.delete({});
+  //   this.logger.log('Database cleared successfully');
+  // }
 
-  // Optional: Method to reset and reseed database
-  async resetDatabase() {
-    this.logger.log('Resetting database...');
-    await this.clearDatabase();
-    await this.seedDatabase();
-    this.logger.log('Database reset successfully');
-  }
+  // // Optional: Method to reset and reseed database
+  // async resetDatabase() {
+  //   this.logger.log('Resetting database...');
+  //   await this.clearDatabase();
+  //   await this.seedDatabase();
+  //   this.logger.log('Database reset successfully');
+  // }
 }

@@ -20,7 +20,7 @@ export class LoggingInterceptor implements NestInterceptor {
     this.logger.log(
       `Incoming Request: ${method} ${url} - User: ${
         user?.email || 'Anonymous'
-      }`,
+      } body : ${JSON.stringify(body)}`,
     );
 
     return next.handle().pipe(

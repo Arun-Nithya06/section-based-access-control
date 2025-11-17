@@ -12,7 +12,6 @@ export class Permission extends BaseEntity {
 
   @ManyToOne(() => Section, (section) => section.permissions, {
     onDelete: 'CASCADE',
-    eager: true,
   })
   section: Section;
 
