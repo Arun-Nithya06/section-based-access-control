@@ -21,19 +21,16 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string) {
-    const user = await this.usersRepository.findOne({ where: { email } });
-
-    console.log('Loaded User:', user);
-
-    if (!user) return null;
-
-    console.log(
-      'Password compare:',
-      await BcryptUtils.comparePassword(password, user.password),
-    );
-
-    return user;
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.usersRepository.findOne({
+      where: { email },
+      relations: ['roles', 'roles.permissions', 'roles.permissions.section'],
+    });
+    if (user && (await BcryptUtils.comparePassword(password, user.password))) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
   }
 
   async login(loginDto: LoginDto) {
@@ -50,6 +47,7 @@ export class AuthService {
     const payload = {
       email: user.email,
       sub: user.id,
+      roles: user.roles.map((role) => role.name),
     };
 
     this.logger.log(`User logged in: ${user.email}`);

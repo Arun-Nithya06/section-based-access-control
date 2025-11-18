@@ -20,7 +20,7 @@ import { DatabaseService } from './database.service';
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
         entities: [User, Role, Section, Permission],
-        synchronize: false,
+        // synchronize: true,
         logging: false,
         autoLoadEntities: true,
         ssl: true,

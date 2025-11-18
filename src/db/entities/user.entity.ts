@@ -40,7 +40,7 @@ export class User extends BaseEntity {
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
-    if (this.password) {
+    if (this.password && !this.password.startsWith('$2b$')) {
       this.password = await BcryptUtils.hashPassword(this.password);
     }
   }
